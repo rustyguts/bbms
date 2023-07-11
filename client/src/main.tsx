@@ -1,3 +1,4 @@
+import './main.css'
 import React from 'react'
 import App from './App.tsx'
 import ReactDOM from 'react-dom/client'
@@ -10,8 +11,8 @@ const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-     <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
       <App />
-     </QueryClientProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 )

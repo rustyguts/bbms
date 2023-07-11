@@ -11,25 +11,39 @@ export class SocketGateway {
     this.server.emit('join', {
       status: 'connected',
       vessels: [
-        {id: "1", name: "MV Paul R. Tregurtha", location: "2"}
+        {id: "1", name: "MV Paul R. Tregurtha", position: [47.445318825626096, -88.9763697854109]}
       ],
       harbors: [
-        {id: "1", name: "Cleveland", size: "lg"},
-        {id: "2", name: "Deluth", size: "lg"}
+        {id: "1", name: "Cleveland", size: "lg", position: [41.505161, -81.693445]},
+        {id: "2", name: "Deluth", size: "lg", position: [46.76223086973586, -92.10418842401378]}
       ],
     })
   }
 
   @SubscribeMessage('vessels')
-  handleVesselMessage(@MessageBody() vesselMessage: any): void {
+  async handleVesselMessage(@MessageBody() vesselMessage: any): Promise<void> {
     console.log("Recived vessel message", vesselMessage)
 
     switch (vesselMessage.type) {
       case 'move_to_harbor':
-        setTimeout(() => {
+        await setTimeout(() => {
           this.server.emit('vessels', {
             type: "vessel_update",
-            vessel: {id: "1", name: "MV Paul R. Tregurtha", location: vesselMessage.to}
+            vessel: {id: "1", name: "MV Paul R. Tregurtha", position: vesselMessage.position}
+          })
+        }, 1000)
+
+        await setTimeout(() => {
+          this.server.emit('vessels', {
+            type: "vessel_update",
+            vessel: {id: "1", name: "MV Paul R. Tregurtha", position: vesselMessage}
+          })
+        }, 1000)
+
+        await setTimeout(() => {
+          this.server.emit('vessels', {
+            type: "vessel_update",
+            vessel: {id: "1", name: "MV Paul R. Tregurtha", position: vesselMessage}
           })
         }, 1000)
 

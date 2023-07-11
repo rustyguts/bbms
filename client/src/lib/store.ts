@@ -3,12 +3,13 @@ import { create } from 'zustand'
 interface Harbor {
   id: string
   name: string
+  position: [number, number]
 }
 
 interface Vessel {
   id: string
   name: string
-  location: string
+  position: [number, number]
 }
 
 type Store = {
