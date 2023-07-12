@@ -5,8 +5,8 @@ import { PortsModule } from './ports/ports.module';
 import { ShipsModule } from './ships/ships.module';
 
 @Module({
-  imports: [PortsModule, ShipsModule],
-  controllers: [AppController],
   providers: [AppService],
+  controllers: [AppController],
+  imports: [PortsModule, ShipsModule],
 })
 export class AppModule {}
