@@ -1,50 +1,34 @@
-import { useContext } from "react";
-import { useStore } from "../lib/store";
-import { FaAnchor } from 'react-icons/fa';
-import { SocketContext } from "../context/socket";
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvent } from "react-leaflet";
+import { useQuery } from "@tanstack/react-query";
+import { getPorts, getShips } from "../api/api";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 export default function GlobalMap() {
-  const store = useStore()
-  const socket = useContext(SocketContext);
+  const shipsQuery = useQuery({ queryKey: ['ships'], queryFn: getShips })
+  const portsQuery = useQuery({ queryKey: ['ports'], queryFn: getPorts })
 
   return (
     <div>
       <div>Global Map</div>
-      <button onClick={() => {
-        socket.emit('vessels', {
-          type: "move_to_harbor",
-          shipId: "1",
-          position: []
-        })
-      }}>Go to Cleveland</button>
-      <button onClick={() => {
-        socket.emit('vessels', {
-          type: "move",
-          shipId: "1",
-          position: []
-        })
-      }}>Go to Deluth</button>
       <MapContainer center={[43.82642885999245, -84.3369578664335]} zoom={6} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {store.vessels.map((v) => {
+        {shipsQuery?.data?.map((s: any) => {
           return (
-            <Marker position={v?.position || [0, 0]}>
+            <Marker position={s?.position || [0, 0]}>
               <Popup>
-                {v.name}
+                {s.name}
               </Popup>
             </Marker>
           )
         })
         }
-        {store.harbors.map((h) => {
+        {portsQuery?.data?.map((p: any) => {
           return (
-            <Marker position={h?.position || [0, 0]}>
+            <Marker position={p?.position || [0, 0]}>
               <Popup>
-                {h.name}
+                {p.name}
               </Popup>
             </Marker>
           )
