@@ -1,9 +1,9 @@
-import GlobalMap from './components/GlobalMap';
+import Map from './components/Map';
 
 function App() {
   return (
     <>
-      <GlobalMap />
+      <Map />
     </>
   )
 }

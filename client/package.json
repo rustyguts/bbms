@@ -12,19 +12,22 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.7.1",
+    "@deck.gl/core": "^8.9.21",
+    "@deck.gl/layers": "^8.9.21",
+    "@deck.gl/react": "^8.9.21",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@tanstack/react-query": "^4.29.19",
     "axios": "^1.4.0",
     "framer-motion": "^10.12.18",
-    "leaflet": "^1.9.4",
+    "mapbox-gl": "^2.15.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
-    "react-leaflet": "^4.2.1"
+    "react-map-gl": "^7.1.2"
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.3",
+    "@types/mapbox-gl": "^2.7.11",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
