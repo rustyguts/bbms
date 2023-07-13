@@ -9,18 +9,18 @@ export default function ShipLayers() {
 
   return (
     <>
-      {shipsQuery?.data?.map((s: any) => {
+      {shipsQuery?.data?.map((s) => {
         return (
           <Marker
             key={`ship-${s.id}`}
             anchor="center"
-            latitude={s.position[0]}
-            longitude={s.position[1]}
+            latitude={s.position.latitude}
+            longitude={s.position.longitude}
           >
             <Popover placement='bottom'>
               <PopoverTrigger>
                 <Box w='auto' h='auto'>
-                  <GiBoatPropeller cursor='pointer' color='#E8B00F' size='30px' style={{ stroke: "black", strokeWidth: '2em' }} />
+                  <GiBoatPropeller cursor='pointer' color='#E8B00F' size='20px' style={{ stroke: "black", strokeWidth: '2em' }} />
                 </Box>
               </PopoverTrigger>
               <PopoverContent>
