@@ -1,1 +1,3 @@
-export class CreateShipDto {}
+export class CreateShipDto {
+  name: string;
+}

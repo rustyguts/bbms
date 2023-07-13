@@ -1,26 +1,21 @@
+import { Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
-import { CreatePortDto } from './dto/create-port.dto';
+import { PrismaService } from '../prisma.service';
 import { UpdatePortDto } from './dto/update-port.dto';
 
 @Injectable()
 export class PortsService {
-  create(createPortDto: CreatePortDto) {
-    return 'This action adds a new port';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createPortDto: Prisma.PortCreateInput) {
+    await this.prisma.port.create({
+      data: createPortDto
+    })
+    return "Port created"
   }
 
   findAll() {
-    return [
-      {
-        id: '1',
-        name: 'Deluth',
-        position: [46.76223086973586,-92.10418842401378],
-      },
-      {
-        id: '2',
-        name: 'Cleveland',
-        position: [41.505161,-81.693445],
-      },
-    ]
+    return this.prisma.port.findMany()
   }
 
   findOne(id: number) {

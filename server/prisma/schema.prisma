@@ -1,0 +1,53 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Ship {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  position  Position
+  Trip      Trip[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Port {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  position  Position @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Route {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  geojson   Json
+  trips     Trip[]
+  distance  Float // In nautical miles
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Trip {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  speed           Float
+  speedMultiplier Float    @default(1)
+  route           Route    @relation(fields: [routeId], references: [id])
+  routeId         String   @db.ObjectId
+  ship            Ship     @relation(fields: [shipId], references: [id])
+  shipId          String   @db.ObjectId
+  eta             DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+type Position {
+  latitude  Float
+  longitude Float
+}

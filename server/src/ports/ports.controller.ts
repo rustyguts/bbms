@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PortsService } from './ports.service';
-import { CreatePortDto } from './dto/create-port.dto';
 import { UpdatePortDto } from './dto/update-port.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 
 @Controller('ports')
 export class PortsController {
   constructor(private readonly portsService: PortsService) {}
 
   @Post()
-  create(@Body() createPortDto: CreatePortDto) {
+  create(@Body() createPortDto: Prisma.PortCreateInput) {
     return this.portsService.create(createPortDto);
   }
 
