@@ -19,3 +19,16 @@ services:
     command: yarn start:dev
     ports:
       - 4000:4000
+
+  # Currently using Atlas because my server doesn't support AVX instructions
+  # db:
+  #   image: mongo:latest
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - ./volumes/db:/data/db
+  #   command: mongod --bind_ip_all
+  #   environment:
+  #     MONGODB_DISABLE_AVX: 1
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: admin
