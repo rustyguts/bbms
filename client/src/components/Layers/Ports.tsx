@@ -17,7 +17,7 @@ export default function PortLayers() {
             latitude={p.position.latitude}
             longitude={p.position.longitude}
           >
-            <Popover>
+            <Popover closeOnBlur={false}>
               <PopoverTrigger>
                 <Box w='auto' h='auto'>
                   <FaAnchor cursor='pointer' color='#E8B00F' size='20px' style={{ stroke: "black", strokeWidth: '2em' }} />

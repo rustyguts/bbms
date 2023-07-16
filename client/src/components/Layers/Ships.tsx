@@ -17,7 +17,7 @@ export default function ShipLayers() {
             latitude={s.position.latitude}
             longitude={s.position.longitude}
           >
-            <Popover placement='bottom'>
+            <Popover closeOnBlur={false}>
               <PopoverTrigger>
                 <Box w='auto' h='auto'>
                   <GiBoatPropeller cursor='pointer' color='#E8B00F' size='20px' style={{ stroke: "black", strokeWidth: '2em' }} />

@@ -1,12 +1,13 @@
 import * as turf from '@turf/turf';
 
-import { DateTime } from 'luxon'
+import { DateTime } from 'luxon';
 import { Injectable } from '@nestjs/common';
 import { CreateShipDto } from './dto/create-ship.dto';
 import { UpdateShipDto } from './dto/update-ship.dto';
 
 import { route } from '../data/layer';
 import { PrismaService } from '../prisma.service';
+import { Cron, Interval } from '@nestjs/schedule';
 
 function kmToNauticalMiles(km) {
   return km / 1.852;
@@ -20,44 +21,68 @@ function nauticalMilesToKm(nm) {
 export class ShipsService {
   constructor(private prisma: PrismaService) {}
 
+  @Cron('10 * * * * *')
+  handleCron() {
+    // Ship cron
+    // console.log('Called when the current second is 10');
+  }
+
+  @Interval(1000)
+  handleInterval() {
+    // Ship tick rate
+    // console.log('Called every second');
+  }
+
   async create(createShipDto: CreateShipDto) {
     await this.prisma.ship.create({
       data: {
         name: createShipDto.name,
         position: {
           latitude: 0,
-          longitude: 0
-        }
-      }
-    })
-    return "Ship created"
+          longitude: 0,
+        },
+      },
+    });
+    return 'Ship created';
   }
 
   async findAll() {
-
     console.time('turf');
-    // const featureCollection = turf.feature(route.features[0].geometry);
     const lineString = turf.lineString(route.features[0].geometry.coordinates);
-    const totalDistance = kmToNauticalMiles(turf.length(lineString, { units: 'kilometers' }));
+    const totalDistance = kmToNauticalMiles(
+      turf.length(lineString, { units: 'kilometers' }),
+    );
     // console.log('Total distance:', kmToNauticalMiles(totalDistance), 'nautical miles');
-    
+
     // calculate how long it would take at 12 knots
     const speed = 12 * 1; // 1x speed multiplier
-    
+
     // calulate how much time has elapsed since the ship left port
-    const journeyStartTime = "2023-07-13T02:42:48.615Z"
+    const journeyStartTime = '2023-07-13T02:42:48.615Z';
     const previousTimestamp = DateTime.fromISO(journeyStartTime);
-    const minutesElapsed = DateTime.now().diff(previousTimestamp, 'minutes').minutes
+    const minutesElapsed = DateTime.now().diff(
+      previousTimestamp,
+      'minutes',
+    ).minutes;
     // console.log(`Minutes elapsed: ${minutesElapsed}`);
-    
+
     // calculate where the ship is if it has been traveling for 20 minutes
     const minutesElapsedSinceDeparture = minutesElapsed;
     const nauticalMilesTraveled = speed * (minutesElapsedSinceDeparture / 60);
-    const point = turf.along(lineString, nauticalMilesToKm(nauticalMilesTraveled), { units: 'kilometers' });
+    const point = turf.along(
+      lineString,
+      nauticalMilesToKm(nauticalMilesTraveled),
+      { units: 'kilometers' },
+    );
     // console.log('Ship is here:', point);
     console.timeEnd('turf');
 
-    const ships = await this.prisma.ship.findMany({})
+    const ships = await this.prisma.ship.findMany({
+      include: {
+        route: true,
+        trips: true,
+      },
+    });
 
     return ships.map((s) => {
       return {
@@ -66,9 +91,9 @@ export class ShipsService {
         position: {
           latitude: point.geometry.coordinates[1],
           longitude: point.geometry.coordinates[0],
-        }
-      }
-    })
+        },
+      };
+    });
   }
 
   findOne(id: number) {
