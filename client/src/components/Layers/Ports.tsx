@@ -14,8 +14,8 @@ export default function PortLayers() {
           <Marker
             key={`port-${p.id}`}
             anchor="center"
-            latitude={p.position.latitude}
-            longitude={p.position.longitude}
+            latitude={p.position[0]}
+            longitude={p.position[1]}
           >
             <Popover closeOnBlur={false}>
               <PopoverTrigger>

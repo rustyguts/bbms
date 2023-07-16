@@ -7,6 +7,9 @@ services:
       - ./client:/app
     working_dir: /app
     command: yarn dev
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - 3000:3000
 
@@ -17,18 +20,28 @@ services:
       - ./server:/app
     working_dir: /app
     command: yarn start:dev
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - 4000:4000
 
-  # Currently using Atlas because my server doesn't support AVX instructions
-  # db:
-  #   image: mongo:latest
-  #   ports:
-  #     - 27017:27017
-  #   volumes:
-  #     - ./volumes/db:/data/db
-  #   command: mongod --bind_ip_all
-  #   environment:
-  #     MONGODB_DISABLE_AVX: 1
-  #     MONGO_INITDB_ROOT_USERNAME: admin
-  #     MONGO_INITDB_ROOT_PASSWORD: admin
+  db:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - 6500:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready', '-U', 'postgres', '-d', 'bbms']
+      retries: 3
+      timeout: 5s
+    environment:
+      POSTGRES_DB: bbms
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  postgres_data:

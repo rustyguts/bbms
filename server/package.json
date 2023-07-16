@@ -25,6 +25,7 @@
     "@nestjs/schedule": "^3.0.1",
     "@prisma/client": "^5.0.0",
     "@turf/turf": "^6.5.0",
+    "convert": "^4.13.0",
     "luxon": "^3.3.0",
     "prisma": "^5.0.0",
     "reflect-metadata": "^0.1.13",
@@ -71,5 +72,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

@@ -1,11 +1,11 @@
-import Map from './components/Map';
 import TopBar from './components/Topbar';
+import GlobalMap from './components/GlobalMap';
 
 function App() {
   return (
     <>
       <TopBar />
-      <Map />
+      <GlobalMap />
     </>
   )
 }

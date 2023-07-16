@@ -37,10 +37,6 @@ export class ShipsService {
     await this.prisma.ship.create({
       data: {
         name: createShipDto.name,
-        position: {
-          latitude: 0,
-          longitude: 0,
-        },
       },
     });
     return 'Ship created';
@@ -52,7 +48,11 @@ export class ShipsService {
     const totalDistance = kmToNauticalMiles(
       turf.length(lineString, { units: 'kilometers' }),
     );
-    // console.log('Total distance:', kmToNauticalMiles(totalDistance), 'nautical miles');
+    console.log(
+      'Total distance:',
+      kmToNauticalMiles(totalDistance),
+      'nautical miles',
+    );
 
     // calculate how long it would take at 12 knots
     const speed = 12 * 1; // 1x speed multiplier
@@ -88,10 +88,10 @@ export class ShipsService {
       return {
         id: s.id,
         name: s.name,
-        position: {
-          latitude: point.geometry.coordinates[1],
-          longitude: point.geometry.coordinates[0],
-        },
+        position: [
+          point.geometry.coordinates[1], // Lat,
+          point.geometry.coordinates[0], // Lng
+        ],
       };
     });
   }

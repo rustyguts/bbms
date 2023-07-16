@@ -9,13 +9,13 @@ export class PortsService {
 
   async create(createPortDto: Prisma.PortCreateInput) {
     await this.prisma.port.create({
-      data: createPortDto
-    })
-    return "Port created"
+      data: createPortDto,
+    });
+    return 'Port created';
   }
 
   findAll() {
-    return this.prisma.port.findMany()
+    return this.prisma.port.findMany();
   }
 
   findOne(id: number) {

@@ -1,7 +1,15 @@
 import { Prisma } from '@prisma/client';
 import { PortsService } from './ports.service';
 import { UpdatePortDto } from './dto/update-port.dto';
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 
 @Controller('ports')
 export class PortsController {

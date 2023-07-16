@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { Port, Ship } from '../types';
+import { Port, Route, Ship } from '../types';
 
 const API_URL = 'http://localhost:4000';
 
 export async function getShips(): Promise<Ship[]> {
   try {
     const response = await axios(`${API_URL}/ships`);
-    return response.data
+    return response.data;
   } catch (error) {
     console.error(error);
     throw error;
@@ -16,7 +16,17 @@ export async function getShips(): Promise<Ship[]> {
 export async function getPorts(): Promise<Port[]> {
   try {
     const response = await axios(`${API_URL}/ports`);
-    return response.data
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getRoutes(): Promise<Route[]> {
+  try {
+    const response = await axios(`${API_URL}/routes`);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw error;

@@ -5,6 +5,6 @@ import { PortsController } from './ports.controller';
 
 @Module({
   controllers: [PortsController],
-  providers: [PortsService, PrismaService]
+  providers: [PortsService, PrismaService],
 })
 export class PortsModule {}

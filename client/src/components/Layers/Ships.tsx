@@ -14,8 +14,8 @@ export default function ShipLayers() {
           <Marker
             key={`ship-${s.id}`}
             anchor="center"
-            latitude={s.position.latitude}
-            longitude={s.position.longitude}
+            latitude={s.position[0]}
+            longitude={s.position[1]}
           >
             <Popover closeOnBlur={false}>
               <PopoverTrigger>
