@@ -13,7 +13,6 @@ export default function PortLayers() {
         return (
           <Marker
             key={`port-${p.id}`}
-            anchor="center"
             latitude={p.position[0]}
             longitude={p.position[1]}
           >

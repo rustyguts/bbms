@@ -68,66 +68,35 @@ export default function ShipEntity({ ship }: { ship: Ship }) {
     return ""
   }
 
-  const pointData = {
-    type: 'Point',
-    coordinates: [ship?.position[1], ship?.position[0]]
-  }
-
   return (
-    <Source type="geojson" data={pointData}>
-    <Layer type="symbol"
-          minzoom={0}
-          layout={{
-            'icon-image': 'ferry',
-            'icon-size': 2,
-            'icon-rotate': ['get', 'bearing'],
-            'icon-rotation-alignment': 'map',
-            'icon-allow-overlap': true,
-            'icon-ignore-placement': true,
-            'text-allow-overlap': true,
-            'text-ignore-placement': true
-          }}/>
-
-      {/* <Layer {...pointLayer}> */}
-        
-    </Source>
+    <Marker
+    latitude={ship?.position[0]}
+    longitude={ship?.position[1]}
+  >
+    <Popover closeOnBlur={false}>
+      <PopoverTrigger>
+        <Box w='2em' h='2em'>
+          <GiBoatPropeller cursor='pointer' color='#E8B00F' size='2em' style={{ strokeWidth: '1em', stroke: "black" }} />
+        </Box>
+      </PopoverTrigger>
+      <PopoverContent zIndex={2000}>
+        <PopoverArrow />
+        <PopoverCloseButton />
+        <PopoverHeader>
+          <Heading size='sm'>
+            {ship.name}
+          </Heading>
+        </PopoverHeader>
+        <PopoverBody>
+          <Text>
+            Speed: {tripsUnderway?.[0]?.speed}kts
+          </Text>
+          <Text>
+            {timeRemaining(tripsUnderway?.[0]?.eta)}
+          </Text>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  </Marker>
   )
-
-  // return (
-  //   <Marker ref={markerRef} latitude={marker.latitude} longitude={marker.longitude}>
-  //   </Marker>
-  // )
-
-  // return (
-  //   <Marker
-  //   anchor="center"
-  //   latitude={ship?.position[0]}
-  //   longitude={ship?.position[1]}
-  // >
-  //   <Popover closeOnBlur={false}>
-  //     <PopoverTrigger>
-  //       <Box w='1.5em' h='1.5em'>
-  //         <GiBoatPropeller cursor='pointer' color='#E8B00F' size='1.5em' />
-  //       </Box>
-  //     </PopoverTrigger>
-  //     <PopoverContent zIndex={2000}>
-  //       <PopoverArrow />
-  //       <PopoverCloseButton />
-  //       <PopoverHeader>
-  //         <Heading size='sm'>
-  //           {ship.name}
-  //         </Heading>
-  //       </PopoverHeader>
-  //       <PopoverBody>
-  //         <Text>
-  //           Speed: {tripsUnderway?.[0]?.speed}kts
-  //         </Text>
-  //         <Text>
-  //           {timeRemaining(tripsUnderway?.[0]?.eta)}
-  //         </Text>
-  //       </PopoverBody>
-  //     </PopoverContent>
-  //   </Popover>
-  // </Marker>
-  // )
 }
