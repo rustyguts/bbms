@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
-import { Route } from '@prisma/client';
 
 @Injectable()
 export class RoutesService {
@@ -12,7 +11,7 @@ export class RoutesService {
     return 'This action adds a new route';
   }
 
-  async findAll(): Promise<Route[]> {
+  async findAll() {
     const routes = await this.prisma.route.findMany();
     return routes;
   }

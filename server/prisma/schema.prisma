@@ -12,8 +12,6 @@ model Ship {
   name      String
   position  Float[]  @default([0, 0]) // Store as lat, lng
   trips     Trip[]
-  route     Route?   @relation(fields: [routeId], references: [id])
-  routeId   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -30,7 +28,6 @@ model Route {
   id        String   @id @default(uuid())
   name      String
   geojson   Json
-  ships     Ship[]
   trips     Trip[]
   distance  Float // In nautical miles
   createdAt DateTime @default(now())
@@ -38,14 +35,21 @@ model Route {
 }
 
 model Trip {
-  id              String   @id @default(uuid())
-  speed           Float
-  speedMultiplier Float    @default(1)
-  route           Route    @relation(fields: [routeId], references: [id])
+  id              String             @id @default(uuid())
+  speed           Float              @default(10)
+  speedMultiplier Float              @default(1)
+  status          NavigationalStatus @default(UNDERWAY)
+  route           Route              @relation(fields: [routeId], references: [id])
   routeId         String
-  ship            Ship     @relation(fields: [shipId], references: [id])
+  ship            Ship               @relation(fields: [shipId], references: [id])
   shipId          String
   eta             DateTime
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  etd             DateTime           @default(now())
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+enum NavigationalStatus {
+  MOORED
+  UNDERWAY
 }

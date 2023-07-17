@@ -1,4 +1,4 @@
-import { FeatureCollection } from 'geojson';
+import { LineString } from 'geojson';
 
 export interface Port {
   id: string;
@@ -12,8 +12,21 @@ export interface Ship {
   position: number[];
 }
 
+export interface Trip {
+  id: string;
+  name: string;
+  eta: string;
+  etd: string;
+  route: Route;
+  speed: number;
+  speedMultiplier: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Route {
   id: string;
   name: string;
-  geojson: FeatureCollection;
+  geojson: LineString;
 }

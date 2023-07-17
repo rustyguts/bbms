@@ -19,8 +19,8 @@ export default function GlobalMap() {
   return (
     <Box h='calc(100vh - 50px)' w='100%'>
       <Map
-        mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
         initialViewState={INITIAL_VIEW_STATE}
+        mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
         mapStyle="mapbox://styles/mapbox/dark-v11"
       >
         <PortLayers />

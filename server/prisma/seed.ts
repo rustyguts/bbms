@@ -80,15 +80,15 @@ async function main() {
   await prisma.route.createMany({
     data: [
       {
-        name: 'Deluth Superior <> Thunder Bay',
+        name: 'Thunder Bay <> Deluth Superior',
         geojson: JSON.parse(
           fs
             .readFileSync(
-              './prisma/seed_data/deluth_superior_thunder_bay.geojson',
+              './prisma/seed_data/thunder_bay_deluth_superior.geojson',
             )
             .toString(),
         ),
-        distance: 87.59448831932623,
+        distance: 162.2249923673924,
       },
     ],
   });

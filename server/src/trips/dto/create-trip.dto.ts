@@ -1,1 +1,5 @@
-export class CreateTripDto {}
+export class CreateTripDto {
+  speed: number;
+  shipId: string;
+  routeId: string;
+}
