@@ -10,7 +10,7 @@ export default function RouteLayers() {
     type: 'line',
     paint: {
       'line-color': '#007cbf',
-      'line-width': 3,
+      'line-width': 2,
     }
   };
 

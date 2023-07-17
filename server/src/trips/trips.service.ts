@@ -2,13 +2,13 @@ import convert from 'convert';
 import * as turf from '@turf/turf';
 
 import { DateTime } from 'luxon';
+import { Trip } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import { Cron, Interval } from '@nestjs/schedule';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-trip.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { parseGeoJsonLineString } from '../common/parsers/geojson';
-import { Trip } from '@prisma/client';
 
 const SPEED_MULTIPLIER = 100;
 

@@ -1,6 +1,6 @@
-import { FaAnchor } from "react-icons/fa";
 import { Marker } from "react-map-gl";
 import { getPorts } from "../../api/api";
+import { FaAnchor } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query"
 import { Box, Heading, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger } from "@chakra-ui/react";
 
@@ -23,7 +23,7 @@ export default function PortLayers() {
                   <FaAnchor cursor='pointer' color='#E8B00F' size='20px' style={{ stroke: "black", strokeWidth: '2em' }} />
                 </Box>
               </PopoverTrigger>
-              <PopoverContent>
+              <PopoverContent zIndex={2000}>
                 <PopoverArrow />
                 <PopoverCloseButton />
                 <PopoverHeader>
