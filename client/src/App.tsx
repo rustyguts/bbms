@@ -1,5 +1,5 @@
-import TopBar from './components/Topbar';
-import GlobalMap from './components/GlobalMap';
+import TopBar from './components/Topbar'
+import GlobalMap from './components/GlobalMap'
 
 function App() {
   return (

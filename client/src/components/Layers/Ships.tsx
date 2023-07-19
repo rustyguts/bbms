@@ -1,10 +1,14 @@
-import ShipEntity from "../Ships/Ship";
+import ShipEntity from '../Ships/Ship'
 
-import { getShips } from "../../api/api";
-import { useQuery } from "@tanstack/react-query";
+import { getShips } from '../../api/api'
+import { useQuery } from '@tanstack/react-query'
 
 export default function ShipLayers() {
-  const shipsQuery = useQuery({ queryKey: ['ships'], queryFn: getShips, refetchInterval: 1000 })
+  const shipsQuery = useQuery({
+    queryKey: ['ships'],
+    queryFn: getShips,
+    refetchInterval: 1000,
+  })
 
   return (
     <>
