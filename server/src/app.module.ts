@@ -6,10 +6,11 @@ import { PortsModule } from './ports/ports.module';
 import { ShipsModule } from './ships/ships.module';
 import { RoutesModule } from './routes/routes.module';
 import { TripsModule } from './trips/trips.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   providers: [AppService],
   controllers: [AppController],
-  imports: [PortsModule, ShipsModule, ScheduleModule.forRoot(), RoutesModule, TripsModule],
+  imports: [PortsModule, ShipsModule, ScheduleModule.forRoot(), RoutesModule, TripsModule, MessagesModule],
 })
 export class AppModule {}

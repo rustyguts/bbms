@@ -1,3 +1,11 @@
+# Big Boat Move Stuff
+
+This is a web game about moving stuff around the world in boats.
+
+## How it works
+
+It doesn't really. I'm still working on it.
+
 ### Helpers
 
 #### Running local dev migrations

@@ -1,12 +1,14 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import PortLayers from './Layers/Ports'
-import ShipLayers from './Layers/Ships'
+import ShipLayers from './Ships/Ships'
 import RouteLayers from './Layers/Routes'
 
 import { useCallback } from 'react'
 import { Box } from '@chakra-ui/react'
 import { Map, MapLayerMouseEvent } from 'react-map-gl'
+import DrawingTools from './DrawingTools'
+import RightSidebar from './RightSidebar'
 
 export default function GlobalMap() {
   const MAPBOX_ACCESS_TOKEN =
@@ -18,14 +20,14 @@ export default function GlobalMap() {
     longitude: -84.79273047874612,
   }
 
-  const onHover = useCallback((event: MapLayerMouseEvent) => {
-    const {
-      features,
-      point: { x, y },
-    } = event
-    const hoveredFeature = features && features[0]
-    console.log(hoveredFeature)
-  }, [])
+  // const onHover = useCallback((event: MapLayerMouseEvent) => {
+  //   const {
+  //     features,
+  //     point: { x, y },
+  //   } = event
+  //   const hoveredFeature = features && features[0]
+  //   console.log(hoveredFeature)
+  // }, [])
 
   return (
     <Box h="calc(100vh - 50px)" w="100%">
@@ -38,9 +40,11 @@ export default function GlobalMap() {
         interactiveLayerIds={['ports', 'ships', 'routes']}
         // mapStyle="mapbox://styles/mapbox/outdoors-v12"
       >
-        <PortLayers />
         <ShipLayers />
+        <PortLayers />
         <RouteLayers />
+        <DrawingTools />
+        <RightSidebar />
       </Map>
     </Box>
   )

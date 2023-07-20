@@ -36,10 +36,6 @@ export default function PortLayers() {
         }
       })
 
-      for (const feature of features) {
-        console.log(feature)
-      }
-
       return {
         type: 'FeatureCollection',
         features,
@@ -60,7 +56,8 @@ export default function PortLayers() {
   if (!geojson) return null
 
   return (
-    <>
+    <Source type="geojson" data={geojson}>
+      <Layer {...layerStyle} />
       {geojson.features.map((f: Feature) => {
         return (
           <Marker
@@ -70,32 +67,31 @@ export default function PortLayers() {
           >
             <Popover closeOnBlur={false}>
               <PopoverTrigger>
-                <Box w="auto" h="auto" zIndex={-1}>
+                <Box w="auto" h="auto">
                   <FaAnchor
+                    key={`port-${f.properties.id}`}
                     cursor="pointer"
                     color="#E8B00F"
                     size="20px"
-                    style={{ stroke: 'black', strokeWidth: '2em' }}
+                    style={{
+                      stroke: 'black',
+                      strokeWidth: '2em',
+                    }}
                   />
                 </Box>
               </PopoverTrigger>
-              <Box zIndex={3000}>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <PopoverCloseButton />
-                  <PopoverHeader>
-                    <Heading size="sm">Port of {f.properties.name}</Heading>
-                  </PopoverHeader>
-                  <PopoverBody>Port Details</PopoverBody>
-                </PopoverContent>
-              </Box>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverHeader>
+                  <Heading size="sm">Port of {f.properties.name}</Heading>
+                </PopoverHeader>
+                <PopoverBody>Port Details</PopoverBody>
+              </PopoverContent>
             </Popover>
           </Marker>
         )
       })}
-      <Source type="geojson" data={geojson}>
-        <Layer {...layerStyle} />
-      </Source>
-    </>
+    </Source>
   )
 }

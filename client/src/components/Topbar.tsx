@@ -5,8 +5,7 @@ export default function TopBar() {
     <Flex h="50px" p="2" justify="space-between" align="center">
       <Box>
         <Heading pl="4" size="sm">
-          {' '}
-          Rusty's Shipping Manager{' '}
+          {'Big Boat Move Stuff'}
         </Heading>
       </Box>
       <Box>
