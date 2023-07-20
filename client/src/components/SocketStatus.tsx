@@ -19,7 +19,12 @@ export default function SocketStatus() {
       }
     }
 
-    handleConnection()
+    // Run it once on mount quickly
+    setTimeout(() => {
+      handleConnection()
+    }, 1000)
+
+    // Run every 5 seconds until unmouted
     const intervalId = setInterval(handleConnection, 5000)
 
     return () => {
@@ -30,7 +35,9 @@ export default function SocketStatus() {
   const color = useMemo(() => {
     if (socket?.disconnected) return 'red'
     return latency < 100 ? 'green' : latency < 200 ? 'yellow' : 'red'
-  }, [])
+  }, [latency, socket])
+
+  if (!socket?.connected) return null
 
   return (
     <Box>

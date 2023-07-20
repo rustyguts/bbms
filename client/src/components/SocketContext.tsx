@@ -13,7 +13,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null)
 
   useEffect(() => {
-    const newSocket = io('http://localhost:4000') // Replace with your server URL
+    const newSocket = io('http://localhost:4000', { transports: ['websocket'] })
     setSocket(newSocket)
 
     newSocket.on('join', (data) => {
