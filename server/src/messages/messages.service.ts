@@ -98,7 +98,7 @@ export class MessagesService {
     }, 100);
 
     client.on('disconnect', () => {
-      console.log(`${client.id} disconnected!}`);
+      console.log(`${client.id} disconnected!`);
       clearInterval(interval);
     });
   }

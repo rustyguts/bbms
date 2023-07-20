@@ -11,6 +11,13 @@ import { MessagesModule } from './messages/messages.module';
 @Module({
   providers: [AppService],
   controllers: [AppController],
-  imports: [PortsModule, ShipsModule, ScheduleModule.forRoot(), RoutesModule, TripsModule, MessagesModule],
+  imports: [
+    PortsModule,
+    ShipsModule,
+    RoutesModule,
+    TripsModule,
+    MessagesModule,
+    ScheduleModule.forRoot(),
+  ],
 })
 export class AppModule {}
