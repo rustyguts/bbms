@@ -1,12 +1,12 @@
 import { Ship } from '../../types'
-import { getShips } from '../../api/api'
-import { useQuery } from '@tanstack/react-query'
+import { createTrip, getShips } from '../../api/api'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { SocketContext } from '../SocketContext'
 import { CircleLayer, Layer, Marker, Source } from 'react-map-gl'
 import { useContext, useEffect, useMemo, useState } from 'react'
-import { Feature } from 'geojson'
 import {
   Box,
+  Button,
   Heading,
   Popover,
   PopoverArrow,
@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { FaAnchor } from 'react-icons/fa'
 import { GiBoatPropeller } from 'react-icons/gi'
+import { Feature } from '@turf/turf'
 
 interface Props {
   ship: Ship
@@ -26,6 +27,21 @@ interface Props {
 function ShipLayer(props: Props) {
   const [s, setShip] = useState<Ship>(props.ship)
   const { socket } = useContext(SocketContext)
+
+  const startTrip = useMutation({
+    mutationFn: ({
+      shipId,
+      destinationPortId,
+    }: {
+      shipId: string
+      destinationPortId: string
+    }) => {
+      return createTrip({
+        shipId,
+        destinationPortId,
+      })
+    },
+  })
 
   const layerStyle: CircleLayer = {
     id: s.id,
@@ -78,7 +94,7 @@ function ShipLayer(props: Props) {
         {geojson.features.map((f: Feature) => {
           return (
             <Marker
-              key={`ship-${f.properties.id}`}
+              key={`ship-${f?.properties?.id}`}
               latitude={f.geometry.coordinates[1]}
               longitude={f.geometry.coordinates[0]}
             >
@@ -98,9 +114,22 @@ function ShipLayer(props: Props) {
                     <PopoverArrow />
                     <PopoverCloseButton />
                     <PopoverHeader>
-                      <Heading size="sm">{f.properties.name}</Heading>
+                      <Heading size="sm">{f?.properties?.name}</Heading>
                     </PopoverHeader>
-                    <PopoverBody>Ship Details</PopoverBody>
+                    <PopoverBody>
+                      <Heading size="xs">Ship Details</Heading>
+                      <Button
+                        onClick={() => {
+                          startTrip.mutate({
+                            shipId: s.id,
+                            destinationPortId:
+                              '884ad35b-987a-4013-8df6-d46b39102d49',
+                          })
+                        }}
+                      >
+                        Go
+                      </Button>
+                    </PopoverBody>
                   </PopoverContent>
                 </Box>
               </Popover>

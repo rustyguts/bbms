@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
 } from '@chakra-ui/react'
 import { Port } from '../../types'
-import { Feature, FeatureCollection } from 'geojson'
+import { Feature, FeatureCollection } from '@turf/turf'
 
 export default function PortLayers() {
   const portsQuery = useQuery({ queryKey: ['ports'], queryFn: getPorts })
@@ -61,15 +61,15 @@ export default function PortLayers() {
       {geojson.features.map((f: Feature) => {
         return (
           <Marker
-            key={`port-${f.properties.id}`}
-            latitude={f.geometry.coordinates[1]}
-            longitude={f.geometry.coordinates[0]}
+            key={`port-${f?.properties?.id}`}
+            latitude={f.geometry?.coordinates[1]}
+            longitude={f.geometry?.coordinates[0]}
           >
             <Popover closeOnBlur={false}>
               <PopoverTrigger>
                 <Box w="auto" h="auto">
                   <FaAnchor
-                    key={`port-${f.properties.id}`}
+                    key={`port-${f?.properties?.id}`}
                     cursor="pointer"
                     color="#E8B00F"
                     size="20px"
@@ -84,7 +84,7 @@ export default function PortLayers() {
                 <PopoverArrow />
                 <PopoverCloseButton />
                 <PopoverHeader>
-                  <Heading size="sm">Port of {f.properties.name}</Heading>
+                  <Heading size="sm">Port of {f?.properties?.name}</Heading>
                 </PopoverHeader>
                 <PopoverBody>Port Details</PopoverBody>
               </PopoverContent>

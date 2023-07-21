@@ -5,52 +5,80 @@ import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-trip.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
-const SPEED_MULTIPLIER = 100;
-
 @Injectable()
 export class TripsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createTripDto: CreateTripDto) {
-    const route = await this.prisma.route.findUnique({
-      where: {
-        id: createTripDto.routeId,
-      },
-    });
+  getSpeedMultiplier(): number {
+    return 100;
+  }
 
-    const trueSpeed = createTripDto.speed * SPEED_MULTIPLIER;
-    const tripDurationInHours = route.distance / trueSpeed;
+  getEta(speed: number, distance: number): Date {
+    const trueSpeed = speed * this.getSpeedMultiplier();
+    const tripDurationInHours = distance / trueSpeed;
 
-    const estimatedTimeOfArrival = DateTime.now().plus({
-      hours: tripDurationInHours,
-    });
+    return DateTime.now()
+      .plus({
+        hours: tripDurationInHours,
+      })
+      .toJSDate();
+  }
 
+  async getUnderwayTrips(shipId: string): Promise<Trip[]> {
     const underwayTrips = await this.prisma.trip.findMany({
       where: {
-        shipId: createTripDto.shipId,
+        shipId: shipId,
         status: 'UNDERWAY',
       },
     });
 
+    return underwayTrips;
+  }
+
+  async create(createTripDto: CreateTripDto) {
+    const underwayTrips = await this.getUnderwayTrips(createTripDto.shipId);
     if (underwayTrips.length > 0) {
       throw new BadRequestException('Ship is already underway');
     }
 
+    const ship = await this.prisma.ship.findUnique({
+      where: {
+        id: createTripDto.shipId,
+      },
+    });
+
+    // TODO :: Add check that enforces that ships only start trips from the port that they are currently in
+
+    const route = await this.prisma.route
+      .findFirstOrThrow({
+        where: {
+          portOfArrivalId: createTripDto.arrivalPortId,
+          portOfDepartureId: createTripDto.departurePortId,
+        },
+        include: {
+          portOfArrival: true,
+          portOfDeparture: true,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Route does not exist');
+      });
+
     const trip = await this.prisma.trip.create({
       data: {
         speed: createTripDto.speed,
-        speedMultiplier: SPEED_MULTIPLIER,
+        speedMultiplier: this.getSpeedMultiplier(),
         ship: {
           connect: {
-            id: createTripDto.shipId,
+            id: ship.id,
           },
         },
         route: {
           connect: {
-            id: createTripDto.routeId,
+            id: route.id,
           },
         },
-        eta: estimatedTimeOfArrival.toJSDate(),
+        eta: this.getEta(createTripDto.speed, route.distance),
       },
     });
 

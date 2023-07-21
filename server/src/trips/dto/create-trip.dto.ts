@@ -1,5 +1,6 @@
 export class CreateTripDto {
   speed: number;
   shipId: string;
-  routeId: string;
+  arrivalPortId: string;
+  departurePortId: string;
 }

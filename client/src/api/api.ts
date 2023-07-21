@@ -59,3 +59,18 @@ export async function getRoutes(): Promise<Route[]> {
     throw error
   }
 }
+
+// Mutations
+
+export async function createTrip(input: {
+  shipId: string
+  destinationPortId: string
+}): Promise<Trip> {
+  try {
+    const response = await axios.post(`${API_URL}/trips`, input)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}

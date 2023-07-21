@@ -17,21 +17,27 @@ model Ship {
 }
 
 model Port {
-  id        String   @id @default(uuid())
-  name      String
-  position  Float[]  @unique @default([0, 0]) // Store as lat, lng
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(uuid())
+  name            String
+  position        Float[]  @unique @default([0, 0]) // Store as lat, lng
+  arrivalRoutes   Route[]  @relation("PortOfArrival")
+  departureRoutes Route[]  @relation("PortOfDeparture")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Route {
-  id        String   @id @default(uuid())
-  name      String
-  geojson   Json
-  trips     Trip[]
-  distance  Float // In nautical miles
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id @default(uuid())
+  name              String
+  geojson           Json
+  distance          Float // In nautical miles
+  trips             Trip[]
+  portOfDeparture   Port     @relation(fields: [portOfDepartureId], references: [id], name: "PortOfDeparture")
+  portOfDepartureId String
+  portOfArrival     Port     @relation(fields: [portOfArrivalId], references: [id], name: "PortOfArrival")
+  portOfArrivalId   String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model Trip {

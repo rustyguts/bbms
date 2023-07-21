@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { SocketContext } from './SocketContext'
 import { useContext, useEffect, useMemo, useState } from 'react'
 
@@ -37,13 +37,13 @@ export default function SocketStatus() {
     return latency < 100 ? 'green' : latency < 200 ? 'yellow' : 'red'
   }, [latency, socket])
 
-  if (!socket?.connected) return null
-
   return (
-    <Box>
-      <Text fontFamily="mono" color={color}>
-        {socket?.connected ? `${latency}ms` : 'Disconnected'}
-      </Text>
-    </Box>
+    <Flex justify="end" align="end" h="30px">
+      {socket?.connected && (
+        <Text fontFamily="mono" color={color}>
+          {socket?.connected ? `${latency}ms` : 'Disconnected'}
+        </Text>
+      )}
+    </Flex>
   )
 }

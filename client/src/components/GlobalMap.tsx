@@ -3,12 +3,11 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import PortLayers from './Layers/Ports'
 import ShipLayers from './Ships/Ships'
 import RouteLayers from './Layers/Routes'
+import DrawingTools from './LeftSidebar/DrawingTools'
+import RightSidebar from './RightSidebar/RightSidebar'
 
-import { useCallback } from 'react'
 import { Box } from '@chakra-ui/react'
 import { Map, MapLayerMouseEvent } from 'react-map-gl'
-import DrawingTools from './DrawingTools'
-import RightSidebar from './RightSidebar'
 
 export default function GlobalMap() {
   const MAPBOX_ACCESS_TOKEN =

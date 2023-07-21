@@ -74,13 +74,28 @@ export class MessagesService {
             },
           });
 
-          // This is when a trip is completed
-          // We can start a new trip here
-          await this.trips.create({
-            speed: trip.speed,
-            shipId: trip.shipId,
-            routeId: trip.routeId,
+          // It's important right now to update the ship position to exactly the last coordinate of the route
+          // This is because the ship will be in the port and we want to show it in the port and use that location
+          // to calculate / validate the next trip
+          await this.prisma.ship.update({
+            where: {
+              id: trip.shipId,
+            },
+            data: {
+              position: parseGeoJsonLineString(trip.route.geojson).coordinates[
+                parseGeoJsonLineString(trip.route.geojson).coordinates.length -
+                  1
+              ].reverse(), // Reversed because we store coordinates as [lat, lng] but GeoJSON is [lng, lat]
+            },
           });
+
+          // // This is when a trip is completed
+          // // We can start a new trip here
+          // await this.trips.create({
+          //   speed: trip.speed,
+          //   shipId: trip.shipId,
+          //   routeId: trip.routeId,
+          // });
         }
       }
     } catch (error) {
