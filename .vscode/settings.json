@@ -19,5 +19,7 @@
     "titleBar.inactiveBackground": "#ffcc0099",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.remoteColor": "#ffcc00"
+  "peacock.remoteColor": "#ffcc00",
+  "jest.jestCommandLine": "yarn test",
+  "jest.rootPath": "server"
 }
