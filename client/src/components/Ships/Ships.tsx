@@ -1,7 +1,9 @@
 import { Ship } from '../../types'
+import { Feature } from '@turf/turf'
+import { GiBoatPropeller } from 'react-icons/gi'
+import { SocketContext } from '../SocketContext'
 import { createTrip, getShips } from '../../api/api'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { SocketContext } from '../SocketContext'
 import { CircleLayer, Layer, Marker, Source } from 'react-map-gl'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import {
@@ -16,9 +18,6 @@ import {
   PopoverHeader,
   PopoverTrigger,
 } from '@chakra-ui/react'
-import { FaAnchor } from 'react-icons/fa'
-import { GiBoatPropeller } from 'react-icons/gi'
-import { Feature } from '@turf/turf'
 
 interface Props {
   ship: Ship

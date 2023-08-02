@@ -23,19 +23,16 @@ export default function ContractsModal() {
         aria-label="Contracts"
         icon={<GoContainer />}
       />
-
       <Modal isOpen={isOpen} onClose={onClose} size="4xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Contracts</ModalHeader>
           <ModalCloseButton />
           <ModalBody>Body</ModalBody>
-
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Accept</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

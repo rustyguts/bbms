@@ -1,3 +1,4 @@
+import FleetModal from './FleetModal'
 import RoutesToggle from './RoutesToggle'
 import SocketStatus from '../SocketStatus'
 import ContractsModal from './ContractsModal'
@@ -11,6 +12,7 @@ export default function RightSidebar() {
         <Box></Box>
         <Box>
           <VStack spacing="2" pb="4">
+            <FleetModal />
             <RoutesToggle />
             <ContractsModal />
           </VStack>
