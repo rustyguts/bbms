@@ -1,16 +1,19 @@
-import convert from 'convert';
-import * as turf from '@turf/turf';
+import convert from 'convert'
+import * as turf from '@turf/turf'
 
-import { DateTime } from 'luxon';
-import { Socket } from 'socket.io';
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { TripsService } from '../trips/trips.service';
-import { parseGeoJsonLineString } from '../common/parsers/geojson';
+import { DateTime } from 'luxon'
+import { Socket } from 'socket.io'
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../prisma.service'
+import { TripsService } from '../trips/trips.service'
+import { parseGeoJsonLineString } from '../common/parsers/geojson'
 
 @Injectable()
 export class MessagesService {
-  constructor(private prisma: PrismaService, private trips: TripsService) {}
+  constructor(
+    private prisma: PrismaService,
+    private trips: TripsService
+  ) {}
 
   async calulateShipPositions(client: Socket) {
     try {
@@ -22,26 +25,26 @@ export class MessagesService {
           ship: true,
           route: true,
         },
-      });
+      })
 
       for (const trip of underwayTrips) {
         const hoursElapsed = DateTime.now().diff(
           DateTime.fromJSDate(trip.createdAt),
-          'hours',
-        ).hours;
+          'hours'
+        ).hours
 
         const nauticalMilesTraveled =
-          trip.speed * trip.speedMultiplier * hoursElapsed;
+          trip.speed * trip.speedMultiplier * hoursElapsed
 
         const lineString = turf.lineString(
-          parseGeoJsonLineString(trip.route.geojson).coordinates,
-        );
+          parseGeoJsonLineString(trip.route.geojson).coordinates
+        )
 
         const point = turf.along(
           lineString,
           convert(nauticalMilesTraveled, 'nautical miles').to('kilometers'),
-          { units: 'kilometers' },
-        );
+          { units: 'kilometers' }
+        )
 
         await this.prisma.ship.update({
           where: {
@@ -53,7 +56,7 @@ export class MessagesService {
               point.geometry.coordinates[0],
             ],
           },
-        });
+        })
 
         client.emit('shipPosition', {
           shipId: trip.shipId,
@@ -61,7 +64,7 @@ export class MessagesService {
             point.geometry.coordinates[1],
             point.geometry.coordinates[0],
           ],
-        });
+        })
 
         // if distance traveled is greater than route distance, then trip is complete
         if (nauticalMilesTraveled >= trip.route.distance) {
@@ -72,7 +75,7 @@ export class MessagesService {
             data: {
               status: 'MOORED',
             },
-          });
+          })
 
           // It's important right now to update the ship position to exactly the last coordinate of the route
           // This is because the ship will be in the port and we want to show it in the port and use that location
@@ -87,7 +90,7 @@ export class MessagesService {
                   1
               ].reverse(), // Reversed because we store coordinates as [lat, lng] but GeoJSON is [lng, lat]
             },
-          });
+          })
 
           // // This is when a trip is completed
           // // We can start a new trip here
@@ -99,26 +102,26 @@ export class MessagesService {
         }
       }
     } catch (error) {
-      console.error(`Error in TripsService.handleInterval: ${error}`);
+      console.error(`Error in TripsService.handleInterval: ${error}`)
     }
   }
 
   join(client: Socket) {
-    console.log(`${client.id} joined the server!`);
-    client.emit('join', 'you have joined the server!');
+    console.log(`${client.id} joined the server!`)
+    client.emit('join', 'you have joined the server!')
 
     const interval = setInterval(async () => {
       // console.log('sending message', client.id);
-      await this.calulateShipPositions(client);
-    }, 100);
+      await this.calulateShipPositions(client)
+    }, 100)
 
     client.on('disconnect', () => {
-      console.log(`${client.id} disconnected!`);
-      clearInterval(interval);
-    });
+      console.log(`${client.id} disconnected!`)
+      clearInterval(interval)
+    })
   }
 
   ping(client: Socket) {
-    client.emit('ping', 'pong');
+    client.emit('ping', 'pong')
   }
 }

@@ -1,3 +1,3 @@
 export class CreateShipDto {
-  name: string;
+  name: string
 }

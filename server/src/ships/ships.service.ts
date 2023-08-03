@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { CreateShipDto } from './dto/create-ship.dto';
-import { UpdateShipDto } from './dto/update-ship.dto';
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../prisma.service'
+import { CreateShipDto } from './dto/create-ship.dto'
+import { UpdateShipDto } from './dto/update-ship.dto'
 
 @Injectable()
 export class ShipsService {
@@ -12,28 +12,28 @@ export class ShipsService {
       data: {
         name: createShipDto.name,
       },
-    });
-    return 'Ship created';
+    })
+    return 'Ship created'
   }
 
   async findAll() {
-    const ships = await this.prisma.ship.findMany();
-    return ships;
+    const ships = await this.prisma.ship.findMany()
+    return ships
   }
 
   async findOne(id: string) {
     const ship = await this.prisma.ship.findUnique({
       where: { id },
-    });
-    if (ship) return ship;
-    return null;
+    })
+    if (ship) return ship
+    return null
   }
 
   update(id: number, updateShipDto: UpdateShipDto) {
-    return `This action updates a #${id} ship`;
+    return `This action updates a #${id} ship`
   }
 
   remove(id: number) {
-    return `This action removes a #${id} ship`;
+    return `This action removes a #${id} ship`
   }
 }

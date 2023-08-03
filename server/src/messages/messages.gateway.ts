@@ -4,9 +4,9 @@ import {
   WebSocketGateway,
   SubscribeMessage,
   ConnectedSocket,
-} from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
-import { MessagesService } from './messages.service';
+} from '@nestjs/websockets'
+import { Server, Socket } from 'socket.io'
+import { MessagesService } from './messages.service'
 
 @WebSocketGateway({
   cors: {
@@ -15,20 +15,20 @@ import { MessagesService } from './messages.service';
 })
 export class MessagesGateway {
   @WebSocketServer()
-  server: Server;
+  server: Server
 
   constructor(private readonly messagesService: MessagesService) {}
 
   @SubscribeMessage('join')
   async joinRoom(
     @MessageBody() joinRoomDto: string,
-    @ConnectedSocket() client: Socket,
+    @ConnectedSocket() client: Socket
   ) {
-    return this.messagesService.join(client);
+    return this.messagesService.join(client)
   }
 
   @SubscribeMessage('ping')
   async ping(@ConnectedSocket() client: Socket) {
-    return this.messagesService.ping(client);
+    return this.messagesService.ping(client)
   }
 }

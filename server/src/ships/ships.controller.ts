@@ -6,10 +6,10 @@ import {
   Patch,
   Param,
   Delete,
-} from '@nestjs/common';
-import { ShipsService } from './ships.service';
-import { CreateShipDto } from './dto/create-ship.dto';
-import { UpdateShipDto } from './dto/update-ship.dto';
+} from '@nestjs/common'
+import { ShipsService } from './ships.service'
+import { CreateShipDto } from './dto/create-ship.dto'
+import { UpdateShipDto } from './dto/update-ship.dto'
 
 @Controller('ships')
 export class ShipsController {
@@ -17,26 +17,26 @@ export class ShipsController {
 
   @Post()
   create(@Body() createShipDto: CreateShipDto) {
-    return this.shipsService.create(createShipDto);
+    return this.shipsService.create(createShipDto)
   }
 
   @Get()
   findAll() {
-    return this.shipsService.findAll();
+    return this.shipsService.findAll()
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.shipsService.findOne(id);
+    return this.shipsService.findOne(id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateShipDto: UpdateShipDto) {
-    return this.shipsService.update(+id, updateShipDto);
+    return this.shipsService.update(+id, updateShipDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.shipsService.remove(+id);
+    return this.shipsService.remove(+id)
   }
 }

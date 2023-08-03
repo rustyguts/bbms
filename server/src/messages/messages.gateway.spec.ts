@@ -1,11 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { MessagesGateway } from './messages.gateway';
-import { MessagesService } from './messages.service';
-import { PrismaService } from '../prisma.service';
-import { TripsService } from '../trips/trips.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { MessagesGateway } from './messages.gateway'
+import { MessagesService } from './messages.service'
+import { PrismaService } from '../prisma.service'
+import { TripsService } from '../trips/trips.service'
 
 describe('MessagesGateway', () => {
-  let gateway: MessagesGateway;
+  let gateway: MessagesGateway
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -15,12 +15,12 @@ describe('MessagesGateway', () => {
         PrismaService,
         TripsService,
       ],
-    }).compile();
+    }).compile()
 
-    gateway = module.get<MessagesGateway>(MessagesGateway);
-  });
+    gateway = module.get<MessagesGateway>(MessagesGateway)
+  })
 
   it('should be defined', () => {
-    expect(gateway).toBeDefined();
-  });
-});
+    expect(gateway).toBeDefined()
+  })
+})

@@ -33,7 +33,7 @@ import { useState } from 'react'
 import { Port } from '../../types'
 
 export default function FleetModal() {
-  const [selectedPort, setSelectedPort] = useState<Port>(null)
+  const [selectedPort, setSelectedPort] = useState<Port | null>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const shipsQuery = useQuery({

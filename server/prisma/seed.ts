@@ -1,13 +1,13 @@
-import * as fs from 'fs';
-import { PrismaClient } from '@prisma/client';
+import * as fs from 'fs'
+import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 async function main() {
-  await prisma.port.deleteMany();
-  await prisma.ship.deleteMany();
-  await prisma.route.deleteMany();
-  await prisma.trip.deleteMany();
+  await prisma.port.deleteMany()
+  await prisma.ship.deleteMany()
+  await prisma.route.deleteMany()
+  await prisma.trip.deleteMany()
 
   const ports = [
     {
@@ -20,7 +20,7 @@ async function main() {
       name: 'Thunder Bay',
       position: [48.380895, -89.247682],
     },
-  ];
+  ]
 
   await prisma.port.createMany({
     data: [
@@ -34,7 +34,7 @@ async function main() {
         position: [48.380895, -89.247682],
       },
     ],
-  });
+  })
 
   await prisma.ship.createMany({
     data: [
@@ -43,7 +43,7 @@ async function main() {
         position: [46.76937275943973, -92.1096765066726],
       },
     ],
-  });
+  })
 
   await prisma.route.createMany({
     data: [
@@ -52,9 +52,9 @@ async function main() {
         geojson: JSON.parse(
           fs
             .readFileSync(
-              './prisma/seed_data/thunder_bay_deluth_superior.geojson',
+              './prisma/seed_data/thunder_bay_deluth_superior.geojson'
             )
-            .toString(),
+            .toString()
         ),
         portOfDepartureId: ports[0].id,
         portOfArrivalId: ports[1].id,
@@ -65,23 +65,23 @@ async function main() {
         geojson: JSON.parse(
           fs
             .readFileSync(
-              './prisma/seed_data/deluth_superior_thunder_bay.geojson',
+              './prisma/seed_data/deluth_superior_thunder_bay.geojson'
             )
-            .toString(),
+            .toString()
         ),
         portOfDepartureId: ports[1].id,
         portOfArrivalId: ports[0].id,
         distance: 162.2249923673924,
       },
     ],
-  });
+  })
 }
 
 main()
   .catch((e) => {
-    console.error(e);
-    process.exit(1);
+    console.error(e)
+    process.exit(1)
   })
   .finally(async () => {
-    await prisma.$disconnect();
-  });
+    await prisma.$disconnect()
+  })

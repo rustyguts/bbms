@@ -1,19 +1,19 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PortsService } from './ports.service';
-import { PrismaService } from '../prisma.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { PortsService } from './ports.service'
+import { PrismaService } from '../prisma.service'
 
 describe('PortsService', () => {
-  let service: PortsService;
+  let service: PortsService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [PortsService, PrismaService],
-    }).compile();
+    }).compile()
 
-    service = module.get<PortsService>(PortsService);
-  });
+    service = module.get<PortsService>(PortsService)
+  })
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
+    expect(service).toBeDefined()
+  })
+})

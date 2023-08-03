@@ -7,10 +7,10 @@ import {
   Param,
   Delete,
   Query,
-} from '@nestjs/common';
-import { TripsService } from './trips.service';
-import { CreateTripDto } from './dto/create-trip.dto';
-import { UpdateTripDto } from './dto/update-trip.dto';
+} from '@nestjs/common'
+import { TripsService } from './trips.service'
+import { CreateTripDto } from './dto/create-trip.dto'
+import { UpdateTripDto } from './dto/update-trip.dto'
 
 @Controller('trips')
 export class TripsController {
@@ -18,27 +18,27 @@ export class TripsController {
 
   @Post()
   create(@Body() createTripDto: CreateTripDto) {
-    return this.tripsService.create(createTripDto);
+    return this.tripsService.create(createTripDto)
   }
 
   @Get()
   findAll(@Query() query: any) {
-    const where = { ...query };
-    return this.tripsService.findAll(where);
+    const where = { ...query }
+    return this.tripsService.findAll(where)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tripsService.findOne(+id);
+    return this.tripsService.findOne(+id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTripDto: UpdateTripDto) {
-    return this.tripsService.update(+id, updateTripDto);
+    return this.tripsService.update(+id, updateTripDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tripsService.remove(+id);
+    return this.tripsService.remove(+id)
   }
 }

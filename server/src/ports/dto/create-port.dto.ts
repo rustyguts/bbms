@@ -1,4 +1,4 @@
 export class CreatePortDto {
-  name: string;
-  position: number[];
+  name: string
+  position: number[]
 }
