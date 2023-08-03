@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { getShips } from '../../api/api'
+import { getPorts, getShips } from '../../api/api'
 import { RiShipLine } from 'react-icons/ri'
 import { useQuery } from '@tanstack/react-query'
 import { BiSolidSend, BiChevronDown } from 'react-icons/bi'
@@ -29,12 +29,21 @@ import {
   useDisclosure,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import { useState } from 'react'
+import { Port } from '../../types'
 
 export default function FleetModal() {
+  const [selectedPort, setSelectedPort] = useState<Port>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   const shipsQuery = useQuery({
     queryKey: ['ships'],
     queryFn: getShips,
+  })
+
+  const portsQuery = useQuery({
+    queryKey: ['ports'],
+    queryFn: getPorts,
   })
 
   return (
@@ -69,27 +78,30 @@ export default function FleetModal() {
                                 as={Button}
                                 rightIcon={<BiChevronDown />}
                               >
-                                Select Port
+                                {selectedPort?.id
+                                  ? `Send to ${selectedPort.name}`
+                                  : `Select Port`}
                               </MenuButton>
                               <MenuList>
-                                <MenuItem
-                                  name="show"
-                                  onClick={(e) => {
-                                    console.log('click', e?.target?.name)
-                                  }}
-                                >
-                                  Show
-                                </MenuItem>
-                                <MenuItem>All</MenuItem>
-                                <MenuItem>The</MenuItem>
-                                <MenuItem>Ports</MenuItem>
+                                {portsQuery?.data?.map((p) => {
+                                  return (
+                                    <MenuItem
+                                      key={p.id}
+                                      onClick={() => {
+                                        setSelectedPort(p)
+                                      }}
+                                    >
+                                      {p.name}
+                                    </MenuItem>
+                                  )
+                                })}
                               </MenuList>
                             </Menu>
                             <IconButton
-                              isDisabled={true}
                               colorScheme="green"
                               aria-label="Dispatch"
                               icon={<BiSolidSend />}
+                              isDisabled={!Boolean(selectedPort)}
                             />
                           </ButtonGroup>
                         </Box>
